@@ -16,39 +16,42 @@ const ABI = [
   }
 ];
 
+let provider;
 let signer;
+let contract;
 
-async function connectWallet() {
+document.getElementById("connectButton").addEventListener("click", async () => {
   if (window.ethereum) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
     signer = provider.getSigner();
-    alert("✅ Wallet Connected!");
+    contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
+    document.getElementById("status").innerText = "✅ Wallet connected!";
   } else {
-    alert("❌ Please install MetaMask to continue.");
+    alert("Please install MetaMask!");
   }
-}
+});
 
-async function mintNFT() {
-  if (!signer) return alert("❗ Connect wallet first!");
+document.getElementById("mintButton").addEventListener("click", async () => {
+  if (!signer || !contract) {
+    alert("Connect your wallet first!");
+    return;
+  }
 
-  const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, signer);
   const quantity = parseInt(document.getElementById("mintAmount").value);
-
-  if (isNaN(quantity) || quantity < 1 || quantity > 10) {
-    return alert("❗ Please enter a valid mint amount between 1 and 10");
+  if (quantity < 1 || quantity > 10) {
+    alert("Quantity must be between 1 and 10");
+    return;
   }
 
-  const pricePerNFT = "0.01";
-  const totalPrice = ethers.utils.parseEther((quantity * parseFloat(pricePerNFT)).toString());
+  const totalCost = ethers.utils.parseEther((0.01 * quantity).toString());
 
   try {
-    const tx = await contract.mintNFTs(quantity, { value: totalPrice });
-    document.getElementById("status").innerText = "Minting in progress...";
+    const tx = await contract.mintNFTs(quantity, { value: totalCost });
+    document.getElementById("status").innerText = "⏳ Minting in progress...";
     await tx.wait();
-    document.getElementById("status").innerText = `✅ Successfully minted ${quantity} NFT(s)!`;
+    document.getElementById("status").innerText = `✅ Minted ${quantity} NFT(s) successfully!`;
   } catch (err) {
-    console.error(err);
-    document.getElementById("status").innerText = "❌ Minting failed: " + (err.reason || err.message);
+    document.getElementById("status").innerText = `❌ Mint failed: ${err.reason || err.message}`;
   }
-} 
+});
