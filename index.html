@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle For The Mars</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: url('https://ipfs.io/ipfs/bafybeicddpezuwu3xdkwhowktzd5rmihqrdzzh2ex5nyog56fft2wq7zxe') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    header {
+      padding: 40px 20px 20px;
+    }
+    header img {
+      height: 100px;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 0.2em;
+      color: #ffffff;
+    }
+    .mint-section {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      margin: 20px auto;
+      box-shadow: 0 10px 30px rgba(82, 235, 232, 0.7);
+    }
+    input[type=number] {
+      font-size: 20px;
+      padding: 10px;
+      width: 80px;
+      border-radius: 6px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: rgba(81, 203, 240, 0.291)329;
+      color: #000000;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #68f061;
+    }
+    .video-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .video-box {
+      background-color: rgba(7, 7, 7, 0.914);
+      padding: 10px;
+      border: 2px solid white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(108, 184, 231, 0.7);
+    }
+    video {
+      width: 250px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .info-section {
+      margin: 50px auto;
+      max-width: 800px;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 12px;
+    }
+    .info-section h2 {
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 60px 0 30px;
+    }
+    .social-icons img {
+      width: 32px;
+      height: 32px;
+      filter: brightness(0) invert(1);
+      cursor: pointer;
+    }
+    #status {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Battle For The Mars</h1>
+  </header>
+
+  <div class="mint-section">
+    <button id="connectButton">Connect Wallet</button><br><br>
+    <label for="mintAmount">Select Quantity:</label>
+    <input type="number" id="mintAmount" min="1" max="10" value="1" />
+    <br><br>ok
+    <button id="mintButton">Mint NFT</button>
+    <p id="status"></p>
+  </div>
+
+  <div class="video-row">
+    <div class="video-box"><video autoplay loop muted src="https://ipfs.io/ipfs/bafybeiakzu5bysy7esmhb5jc7lnhiravokef55xvjugurndjnp77eqclfq"></video></div>
+    <div class="video-box"><video autoplay loop muted src="https://ipfs.io/ipfs/bafybeigpnmz5edlzpkbk2nhh47mc6fu3mr2r2ommvuabaebxi73cb7573y"></video></div>
+    <div class="video-box"><video autoplay loop muted src="https://ipfs.io/ipfs/bafybeicsbt6mx7rw6zwc2l7hpkevf4yq7nlcbx75673trs4nmnuijbnlvu"></video></div>
+    <div class="video-box"><video autoplay loop muted src="https://ipfs.io/ipfs/bafybeiaeekrqd3xw2rjlovtz5mabbxlm2hylct5whahcockd67aylo7ifq"></video></div>
+</div>
+
+  <div class="info-section">
+    <h2>About the Collection</h2>
+    <p>A sci-fi NFT experience that explores the future of human civilization on Mars. Each NFT is a portal into a new world.</p>
+
+    <h2>Our Roadmap</h2>
+    <ul>
+      <li>✅ Launch Genesis NFTs</li>
+      <li>🚧 Reveal hidden NFTs (3D Models)</li>
+      <li>🎮 Game integration roadmap</li>
+      <li>🎬 Short film teaser drop</li>
+    </ul>
+
+    <h2>Creators</h2>
+    <p>👨‍🚀 Adharsh & 🧠 Jack – Dreamers behind the Mars Metaverse mission!</p>
+  </div>
+
+  <div class="social-icons">
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="X (Twitter)"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <script>
+    const contractAddress = "0x7A0A33aaC3c694DE96b12A5F48E18692C83e1f07";
+    const abi = [{ "inputs": [{ "internalType": "address", "name": "to", "type": "address" }], "name": "safeMint", "outputs": [], "stateMutability": "nonpayable", "type": "function" }];
+
+    let provider, signer, contract;
+
+    document.getElementById("connectButton").onclick = async () => {
+      if (typeof window.ethereum !== "undefined") {
+        await ethereum.request({ method: "eth_requestAccounts" });
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+        signer = provider.getSigner();
+        contract = new ethers.Contract(contractAddress, abi, signer);
+        document.getElementById("status").innerText = "✅ Wallet Connected";
+      } else {
+        alert("Install MetaMask");
+      }
+    };
+
+    document.getElementById("mintButton").onclick = async () => {
+      try {
+        const amount = parseInt(document.getElementById("mintAmount").value);
+        const userAddress = await signer.getAddress();
+        document.getElementById("status").innerText = `Minting ${amount} NFT(s)...`;
+        for (let i = 0; i < amount; i++) {
+          const tx = await contract.safeMint(userAddress);
+          await tx.wait();
+        }
+        document.getElementById("status").innerText = `✅ Successfully Minted ${amount} NFT(s)!`;
+      } catch (err) {
+        document.getElementById("status").innerText = "❌ Minting failed.";
+      }
+    };
+  </script>
+</body>
+</html>
